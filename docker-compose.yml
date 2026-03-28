@@ -1,0 +1,22 @@
+services:
+  ntfy:
+    image: ntfy:local
+    container_name: ntfy
+    ports:
+      - "8080:80"
+    volumes:
+      - ntfy-auth:/data
+      - ntfy-cache:/cache
+    environment:
+      - NTFY_AUTH_FILE=/data/auth.db
+      - NTFY_AUTH_USERS=admin:$$2a$$10$$MOi5D8cm9L2TJbg1a5.r4.5wVZwbx8GAZtiGVAQK/6dReSC5iWIsS:admin
+    command: >
+      serve
+      --enable-login
+      --enable-signup
+      --cache-file=/cache/cache.db
+    restart: unless-stopped
+
+volumes:
+  ntfy-auth:
+  ntfy-cache:
